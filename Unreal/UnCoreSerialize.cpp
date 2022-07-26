@@ -1194,7 +1194,8 @@ void FByteBulkData::SerializeHeader(FArchive &Ar)
 		appPrintf("BulkHdrEndPos: %X, %d elements x %d bytes, Flags=%X, DataPos=pkg(%llX)+%llX, DiskSize=%X\n",
 			Ar.Tell(), ElementCount, GetElementSize(), BulkDataFlags, Package->Summary.BulkDataStartOffset, BulkDataOffsetInFile, BulkDataSizeOnDisk);
 	#endif
-		if (!(BulkDataFlags & BULKDATA_NoOffsetFixUp)) // UE4.26 flag
+		if ((BulkDataFlags & (BULKDATA_OptionalPayload | BULKDATA_PayloadInSeperateFile)) &&
+			!(BulkDataFlags & BULKDATA_NoOffsetFixUp)) // UE4.26 flag
 		{
 			BulkDataOffsetInFile += Package->Summary.BulkDataStartOffset;
 		}
@@ -1384,6 +1385,10 @@ void FByteBulkData::Serialize(FArchive &Ar)
 			SerializeDataChunk(Ar);
 			return;
 		}
+
+		// Data is in the same file but at different position
+		SerializeData(Ar);
+		return;
 	}
 #endif // UNREAL4
 
