@@ -404,6 +404,14 @@ static void CollectProps(const CTypeInfo *Type, const void *Data, CPropDump &Dum
 
 				PROCESS(byte,     "%d", PROP(byte));
 				PROCESS(int,      "%d", PROP(int));
+#if UNREAL4
+				PROCESS(int8,   "%hhd", PROP(int8));
+				PROCESS(int16,   "%hd", PROP(int16));
+				PROCESS(int64,  "%lld", PROP(int64));
+				PROCESS(uint16,  "%hu", PROP(uint16));
+				PROCESS(uint32,   "%u", PROP(uint32));
+				PROCESS(uint64, "%llu", PROP(uint64));
+#endif
 				PROCESS(bool,     "%s", PROP(bool) ? "true" : "false");
 				PROCESS(float,    "%g", PROP(float));
 				if (IS(UObject*))

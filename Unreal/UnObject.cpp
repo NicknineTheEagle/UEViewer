@@ -1117,6 +1117,44 @@ void CTypeInfo::ReadUnrealProperty(FArchive& Ar, FPropertyTag& Tag, void* Object
 		PROP_DBG("%d", PROP(int));
 		break;
 
+#if UNREAL4
+	case NAME_Int8Property:
+		CHECK_TYPE(PropType::Int8);
+		Ar << PROP(int8);
+		PROP_DBG("%hhd", PROP(int8));
+		break;
+
+	case NAME_Int16Property:
+		CHECK_TYPE(PropType::Int16);
+		Ar << PROP(int16);
+		PROP_DBG("%hd", PROP(int16));
+		break;
+
+	case NAME_Int64Property:
+		CHECK_TYPE(PropType::Int64);
+		Ar << PROP(int64);
+		PROP_DBG("%lld", PROP(int64));
+		break;
+
+	case NAME_UInt16Property:
+		CHECK_TYPE(PropType::UInt16);
+		Ar << PROP(uint16);
+		PROP_DBG("%hu", PROP(uint16));
+		break;
+
+	case NAME_UInt32Property:
+		CHECK_TYPE(PropType::UInt32);
+		Ar << PROP(uint32);
+		PROP_DBG("%u", PROP(uint32));
+		break;
+
+	case NAME_UInt64Property:
+		CHECK_TYPE(PropType::UInt64);
+		Ar << PROP(uint64);
+		PROP_DBG("%llu", PROP(uint64));
+		break;
+#endif
+
 	case NAME_BoolProperty:
 		CHECK_TYPE(PropType::Bool);
 		PROP(bool) = Tag.BoolValue != 0;
@@ -1361,6 +1399,7 @@ void CTypeInfo::ReadUnrealProperty(FArchive& Ar, FPropertyTag& Tag, void* Object
 			}
 		}
 #endif // BATMAN
+	default:
 		appError("Unknown property type %d, name %s", Tag.Type, *Tag.Name);
 		break;
 	}

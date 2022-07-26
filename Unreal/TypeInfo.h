@@ -194,6 +194,14 @@ namespace PropType
 {
 	constexpr const char* Bool = "bool";
 	constexpr const char* Int = "int";
+#if UNREAL4
+	constexpr const char* Int8 = "int8";
+	constexpr const char* Int16 = "int16";
+	constexpr const char* Int64 = "int64";
+	constexpr const char* UInt16 = "uint16";
+	constexpr const char* UInt32 = "uint32";
+	constexpr const char* UInt64 = "uint64";
+#endif
 	constexpr const char* Byte = "byte";
 	constexpr const char* Float = "float";
 	constexpr const char* FName = "FName";
@@ -237,9 +245,17 @@ namespace PropType
 // compiler report it as 4-byte field).
 #define PROP_ENUM(Field)		{ #Field, PropType::Byte, FIELD2OFS(ThisClass, Field), 1 },
 #define PROP_ENUM2(Field,Type)	{ #Field, "#"#Type, FIELD2OFS(ThisClass, Field), 1 },
-#define PROP_BYTE(Field)		_PROP_BASE(Field, PropType::Byte, byte )
-#define PROP_INT(Field)			_PROP_BASE(Field, PropType::Int, int32  )
-#define PROP_BOOL(Field)		_PROP_BASE(Field, PropType::Bool, bool )
+#define PROP_BYTE(Field)		_PROP_BASE(Field, PropType::Byte, byte)
+#define PROP_INT(Field)			_PROP_BASE(Field, PropType::Int, int32)
+#if UNREAL4
+#define PROP_INT8(Field)		_PROP_BASE(Field, PropType::Int8, int8)
+#define PROP_INT16(Field)		_PROP_BASE(Field, PropType::Int16, int16)
+#define PROP_INT64(Field)		_PROP_BASE(Field, PropType::Int64, int64)
+#define PROP_UINT16(Field)		_PROP_BASE(Field, PropType::UInt16, uint16)
+#define PROP_UINT32(Field)		_PROP_BASE(Field, PropType::UInt32, uint32)
+#define PROP_UINT64(Field)		_PROP_BASE(Field, PropType::UInt64, uint64)
+#endif
+#define PROP_BOOL(Field)		_PROP_BASE(Field, PropType::Bool, bool)
 #define PROP_FLOAT(Field)		_PROP_BASE(Field, PropType::Float, float)
 #define PROP_NAME(Field)		_PROP_BASE(Field, PropType::FName, FName)
 #define PROP_STRING(Field)		_PROP_BASE(Field, PropType::FString, FString)

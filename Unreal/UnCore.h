@@ -747,7 +747,12 @@ FORCEINLINE FArchive& operator<<(FArchive &Ar, bool &B)
 	if (Ar.IsLoading) B = (b32 != 0);
 	return Ar;
 }
-FORCEINLINE FArchive& operator<<(FArchive &Ar, char &B) // int8
+FORCEINLINE FArchive& operator<<(FArchive &Ar, char &B)
+{
+	Ar.Serialize(&B, 1);
+	return Ar;
+}
+FORCEINLINE FArchive& operator<<(FArchive &Ar, int8 &B)
 {
 	Ar.Serialize(&B, 1);
 	return Ar;
