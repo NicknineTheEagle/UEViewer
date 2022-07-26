@@ -1199,6 +1199,7 @@ void CTypeInfo::ReadUnrealProperty(FArchive& Ar, FPropertyTag& Tag, void* Object
 			else SIMPLE_ARRAY_TYPE(PropType::Float, float)
 			else SIMPLE_ARRAY_TYPE(PropType::UObject, UObject*)
 			else SIMPLE_ARRAY_TYPE(PropType::FName, FName)
+			else SIMPLE_ARRAY_TYPE(PropType::FString, FString)
 			else SIMPLE_ARRAY_TYPE(PropType::FVector, FVector)
 			else SIMPLE_ARRAY_TYPE("FQuat", FQuat)
 			else
