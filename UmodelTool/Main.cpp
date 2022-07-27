@@ -20,6 +20,7 @@
 #include "UnrealMesh/UnMesh4.h"
 
 #include "UnSound.h"
+#include "UnAkAudio.h"
 #include "UnThirdParty.h"
 
 #include "Exporters/Exporters.h"
@@ -166,6 +167,7 @@ BEGIN_CLASS_TABLE
 #endif
 #if UNREAL4
 	REGISTER_SOUND_CLASSES_UE4
+	REGISTER_AKSOUND_CLASSES
 #endif
 END_CLASS_TABLE
 }
@@ -312,6 +314,9 @@ static void RegisterExporters()
 	RegisterExporter<UStaticMesh4>([](const UStaticMesh4* Mesh) { CallExportStaticMesh(Mesh->ConvertedMesh); });
 	RegisterExporter<USkeleton>([](const USkeleton* Anim) { CallExportAnimation(Anim->ConvertedAnim); });
 	RegisterExporter<USoundWave>(ExportSoundWave4);
+	RegisterExporter<UAkMediaAsset>(ExportAkMediaAsset);
+	RegisterExporter<UAkAudioEventData>(ExportAkEvent);
+	RegisterExporter<UAkInitBank>(ExportAkInitBank);
 #endif // UNREAL4
 	RegisterExporter<UUnrealMaterial>(ExportMaterial);			// register this after Texture/Texture2D exporters
 }

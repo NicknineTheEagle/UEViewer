@@ -3,6 +3,7 @@
 
 #include "UnObject.h"
 #include "UnSound.h"
+#include "UnAkAudio.h"
 
 #include "Exporters.h"
 
@@ -304,6 +305,66 @@ void ExportSoundWave4(const USoundWave *Snd)
 	else
 	{
 		appPrintf("... empty sound %s (streamed sound or unrecognized format)\n", Snd->Name);
+	}
+}
+
+void ExportAkMediaAsset(const UAkMediaAsset* Snd)
+{
+	const UAkMediaAssetData *data = Snd->CurrentMediaAssetData;
+	if (data && data->DataChunks.Num())
+	{
+		FArchive* Ar = CreateExportArchive(Snd, EFileArchiveOptions::Default, "%u.wem", Snd->Id);
+		if (Ar)
+		{
+			for (int i = 0; i < data->DataChunks.Num(); i++)
+			{
+				const FAkMediaDataChunk& chunk = data->DataChunks[i];
+				if (chunk.IsPrefetch)
+					continue;
+
+				// Load bulk into memory
+				chunk.Data.SerializeData(data);
+				// Export data
+				Ar->Serialize(chunk.Data.BulkData, chunk.Data.ElementCount);
+			}
+			delete Ar;
+		}
+	}
+	else
+	{
+		appPrintf("... empty sound %s\n", Snd->Name);
+	}
+}
+
+void ExportAkEvent(const UAkAudioEventData* Snd)
+{
+	const FByteBulkData* blk = &Snd->Data;
+
+	// Load bulk into memory
+	blk->SerializeData(Snd);
+	FArchive* Ar = CreateExportArchive(Snd, EFileArchiveOptions::Default, "%u.bnk", Snd->BankID);
+	if (Ar)
+	{
+		// Export data
+		Ar->Serialize(blk->BulkData, blk->ElementCount);
+		delete Ar;
+	}
+}
+
+void ExportAkInitBank(const UAkInitBank *Snd)
+{
+	if (Snd->PlatformAssetData == NULL || Snd->PlatformAssetData->CurrentAssetData == NULL)
+		return;
+
+	const FByteBulkData* blk = &Snd->PlatformAssetData->CurrentAssetData->Data;
+
+	// Load bulk into memory
+	blk->SerializeData(Snd->PlatformAssetData->CurrentAssetData);
+	FArchive* Ar = CreateExportArchive(Snd, EFileArchiveOptions::Default, "Init.bnk");
+	if (Ar) {
+		// Export data
+		Ar->Serialize(blk->BulkData, blk->ElementCount);
+		delete Ar;
 	}
 }
 
