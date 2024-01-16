@@ -24,6 +24,8 @@ static void SaveSound(const UObject *Obj, void *Data, int DataSize, const char *
 
 	if (!memcmp(Data, "OggS", 4))
 		ext = "ogg";
+	else if (!memcmp(Data, "RIFF", 4) && strncmp(DefExt, "AT9", 3) == 0)
+		ext = "at9";
 	else if (!memcmp(Data, "RIFF", 4))
 		ext = "wav";
 	else if (!memcmp(Data, "FSB4", 4))
