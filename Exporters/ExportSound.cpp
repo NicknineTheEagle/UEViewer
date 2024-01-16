@@ -248,6 +248,11 @@ void ExportSoundNodeWave(const USoundNodeWave *Snd)
 	{
 		bulk = &Snd->CompressedIPhoneData;
 	}
+	else if (Snd->CompressedSwitchData.ElementCount)
+	{
+		bulk = &Snd->CompressedSwitchData;
+		ext = "switch_audio";
+	}
 
 	if (bulk)
 	{

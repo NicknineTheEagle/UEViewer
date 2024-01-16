@@ -74,6 +74,8 @@ public:
 	FByteBulkData		CompressedPS3Data;
 	FByteBulkData		CompressedWiiUData;
 	FByteBulkData		CompressedIPhoneData;
+	FByteBulkData		CompressedUnkData;
+	FByteBulkData		CompressedSwitchData;
 
 	void Serialize(FArchive &Ar)
 	{
@@ -98,6 +100,8 @@ public:
 			&CompressedPS3Data,
 			&CompressedWiiUData,		// appeared in ArVer 845
 			&CompressedIPhoneData,		// appeared in ArVer 851
+			&CompressedUnkData,			// TODO: Figure out what platform this is
+			&CompressedSwitchData,
 		};
 
 		for (FByteBulkData* Bulk : Bulks)
